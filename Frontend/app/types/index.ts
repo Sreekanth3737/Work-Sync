@@ -7,17 +7,18 @@ export interface User {
   profilePicture?: string;
   updatedAt: Date;
 }
+
 export interface Workspace {
   _id: string;
   name: string;
   description?: string;
   owner: User | string;
+  color: string;
   members: {
-    user: User;
+    user: User | string;
     role: "admin" | "member" | "owner" | "viewer";
     joinedAt: Date;
   }[];
-  color: string;
   createdAt: Date;
   updatedAt: Date;
 }
