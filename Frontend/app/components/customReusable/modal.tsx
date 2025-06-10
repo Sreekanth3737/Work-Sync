@@ -5,8 +5,8 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from "./dialog";
-import { Button } from "./button";
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 
 interface ModalProps {
   open: boolean;

@@ -10,9 +10,9 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./form";
-import { Input } from "./input";
-import { Textarea } from "./textarea";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -21,11 +21,11 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./select";
-import { Checkbox } from "./checkbox";
-import { RadioGroup, RadioGroupItem } from "./radio-group";
-import { Button } from "./button";
-import { PasswordInput } from "./password-input";
+} from "../ui/select";
+import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Button } from "../ui/button";
+import { PasswordInput } from "../ui/password-input";
 import { INPUT_TYPES, type InputType } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
