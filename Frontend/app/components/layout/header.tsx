@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { WorkspaceAvatar } from "../Workspace/Workspace-avatar";
 
 interface HeaderProps {
@@ -20,13 +20,19 @@ interface HeaderProps {
   selectedWorkspace: Workspace | null;
   onCreatedWorkspace: () => void;
 }
+
+interface LoaderData {
+  workspaces: Workspace[];
+}
+
 export const Header = ({
   onWorkspaceSelected,
   selectedWorkspace,
   onCreatedWorkspace,
 }: HeaderProps) => {
   const { user, logout } = useAuth();
-  const workspaces = [];
+  const loaderData = useLoaderData<LoaderData>();
+  const workspaces = loaderData.workspaces;
 
   return (
     <div className="bg-background sticky top-0 z-40 border-b">
