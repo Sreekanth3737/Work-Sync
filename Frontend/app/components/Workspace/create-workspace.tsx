@@ -2,28 +2,14 @@ import { workspaceSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 import { Button } from "../ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { cn } from "@/lib/utils";
-import { DynamicForm, type FormElement } from "../ui/dynamicForm";
-import { Modal } from "../ui/modal";
+import { Form } from "../ui/form";
+import { DynamicForm, type FormElement } from "../customReusable/dynamicForm";
+import { Modal } from "../customReusable/modal";
 import { INPUT_TYPES } from "@/lib/constants";
+import { useCreateWorkspace } from "@/hooks/use-workspace";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 interface CreateWorkspaceProps {
   isCreatingWorkspace: boolean;
@@ -41,7 +27,7 @@ export const COLOR_OPTIONS = [
   "#34495E", // Navy
 ];
 
-type WorkspaceForm = z.infer<typeof workspaceSchema>;
+export type WorkspaceForm = z.infer<typeof workspaceSchema>;
 
 const elements: FormElement<WorkspaceForm>[] = [
   {
@@ -72,7 +58,8 @@ export const CreateWorkspace = ({
   isCreatingWorkspace,
   setIsCreatingWorkspace,
 }: CreateWorkspaceProps) => {
-  const isPending = false;
+  const navigate = useNavigate();
+  const { mutate, isPending } = useCreateWorkspace();
 
   const form = useForm<WorkspaceForm>({
     resolver: zodResolver(workspaceSchema),
@@ -84,7 +71,19 @@ export const CreateWorkspace = ({
   });
 
   const onSubmit = (data: WorkspaceForm) => {
-    console.log(data);
+    mutate(data, {
+      onSuccess: (data: any) => {
+        form.reset();
+        setIsCreatingWorkspace(false);
+        toast.success("Workspace created successfully");
+        navigate(`/workspaces/${data._id}`);
+      },
+      onError: (error: any) => {
+        const errorMessage = error.response?.data?.message;
+        toast.error(errorMessage);
+        console.log(error);
+      },
+    });
   };
 
   return (
