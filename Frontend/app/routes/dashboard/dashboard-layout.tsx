@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import { useAuth } from "@/provider/auth-context";
 import { Navigate, Outlet } from "react-router";
-import { Loader } from "@/components/ui/loader";
+import { Loader } from "@/components/customReusable/loader";
 import { Header } from "@/components/layout/header";
 import type { Workspace } from "@/types";
 import { Sidebar } from "@/components/layout/sidebar";
 import { CreateWorkspace } from "@/components/Workspace/create-workspace";
+import { fetchData } from "@/lib/fetch-util";
+
+export const clientLoader = async () => {
+  try {
+    const [workspaces] = await Promise.all([fetchData("/workspaces")]);
+    return { workspaces };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const DashboardLayout = () => {
   const { isAuthenticated, isLoading } = useAuth();
