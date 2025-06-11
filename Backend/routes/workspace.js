@@ -4,6 +4,8 @@ import { workspaceSchema } from "../libs/validate-schema.js";
 import authMiddleware from "../middleware/auth-middleware.js";
 import {
   createWorkspace,
+  getWorkspaceByID,
+  getWorkspaceProjects,
   getWorkspaces,
 } from "../controllers/workspaceController.js";
 
@@ -17,5 +19,8 @@ router.post(
 );
 
 router.get("/", authMiddleware, getWorkspaces);
+
+router.get("/:workspaceId", authMiddleware, getWorkspaceByID);
+router.get("/:workspaceId/projects", authMiddleware, getWorkspaceProjects);
 
 export default router;
