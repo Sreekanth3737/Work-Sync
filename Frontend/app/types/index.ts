@@ -88,3 +88,10 @@ export interface Task {
   watchers?: User[];
   attachments?: Attachment[];
 }
+
+export interface MemberProps {
+  _id: string;
+  user: User;
+  role: "admin" | "member" | "owner" | "viewer";
+  joinedAt: Date;
+}
