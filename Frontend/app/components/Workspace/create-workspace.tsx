@@ -51,6 +51,7 @@ const elements: FormElement<WorkspaceForm>[] = [
       label: color,
       value: color,
     })),
+    elementContainerClassName: "flex gap-3 flex-wrap",
   },
 ];
 
@@ -105,6 +106,7 @@ export const CreateWorkspace = ({
           onSubmit={onSubmit}
           isPending={isPending}
           hideSubmitButton
+          containerClassName="space-y-4 py-4"
         />
       </Form>
     </Modal>
