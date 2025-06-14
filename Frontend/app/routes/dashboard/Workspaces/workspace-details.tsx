@@ -1,4 +1,6 @@
 import { Loader } from "@/components/customReusable/loader";
+import { CreateProject } from "@/components/project/create-project";
+import { ProjectList } from "@/components/Workspace/project-list";
 import { WorkspaceHeader } from "@/components/Workspace/workspace-header";
 import { useGetWorkspaceByIdQuery } from "@/hooks/use-workspace";
 import type { Project, Workspace } from "@/types";
@@ -33,6 +35,17 @@ const WorkspaceDetails = () => {
         members={data?.workspace?.members as any}
         onCreateProject={() => setIsCreateProject(true)}
         onInviteMember={() => setIsInviteMember(true)}
+      />
+      <ProjectList
+        workspaceId={workspaceId}
+        onCreateProject={() => setIsCreateProject(true)}
+        projects={data.projects}
+      />
+      <CreateProject
+        isOpen={isCreateProject}
+        onOpenChange={setIsCreateProject}
+        workspaceId={workspaceId}
+        workspaceMembers={data.workspace.members as any}
       />
     </div>
   );

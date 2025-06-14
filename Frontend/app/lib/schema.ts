@@ -49,10 +49,17 @@ export const projectSchema = z.object({
   members: z
     .array(
       z.object({
-        user: z.string(),
+        value: z.string(),
         role: z.enum(["manager", "contributor", "viewer"]),
       })
     )
     .optional(),
-  tags: z.array(z.string()).optional(),
+  tags: z
+    .array(
+      z.object({
+        tag: z.string(),
+        color: z.string(),
+      })
+    )
+    .optional(),
 });
