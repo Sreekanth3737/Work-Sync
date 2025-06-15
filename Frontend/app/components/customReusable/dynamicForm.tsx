@@ -129,7 +129,7 @@ export const DynamicForm = <T extends FieldValues>({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full max-w-[240px] flex items-center justify-between text-left font-normal overflow-hidden text-ellipsis whitespace-nowrap",
+                  "w-full  flex items-center justify-between text-left font-normal overflow-hidden text-ellipsis whitespace-nowrap",
                   !field.value && "text-muted-foreground"
                 )}
               >

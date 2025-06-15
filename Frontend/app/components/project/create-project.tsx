@@ -120,6 +120,7 @@ export const CreateProject = ({
   };
   return (
     <Modal
+      size="xl"
       open={isOpen}
       onOpenChange={onOpenChange}
       title="Create Project"
