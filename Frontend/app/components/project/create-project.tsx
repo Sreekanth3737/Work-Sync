@@ -11,7 +11,7 @@ import { INPUT_TYPES } from "@/lib/constants";
 
 interface CreateProjectProps {
   isOpen: boolean;
-  onOpenChange: () => void;
+  onOpenChange: (open: boolean) => void;
   workspaceId: string;
   workspaceMembers: MemberProps[];
 }
@@ -125,9 +125,13 @@ export const CreateProject = ({
       onOpenChange={onOpenChange}
       title="Create Project"
       description="Create a new project to get started"
-      //   onCancel={() => setIsCreatingWorkspace(false)}
+      onCancel={() => onOpenChange(false)}
       footer={
-        <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
+        <Button
+          className="cursor-pointer"
+          onClick={form.handleSubmit(onSubmit)}
+          disabled={isPending}
+        >
           {isPending ? "Creating..." : "Create"}
         </Button>
       }

@@ -72,7 +72,11 @@ export const Modal = ({
         <div className="py-4 space-y-4">{children}</div>
         <DialogFooter className="flex gap-2 justify-end">
           {showCancelButton && (
-            <Button variant="outline" onClick={onCancel}>
+            <Button
+              className="cursor-pointer"
+              variant="outline"
+              onClick={onCancel}
+            >
               {cancelLabel}
             </Button>
           )}
