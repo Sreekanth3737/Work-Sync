@@ -88,8 +88,8 @@ export const CreateProject = ({
       label: "Select Members",
       type: INPUT_TYPES.MULTISELECT_WITH_OPTIONS,
       options: workspaceMembers.map((m) => ({
-        label: m.user.name,
-        value: m.user._id,
+        label: `${m?.user?.name} (${m?.role})`,
+        value: m?.user?._id,
       })),
       subOptionKey: "role",
       subOptions: [
