@@ -155,7 +155,10 @@ export const CreateProject = ({
       onOpenChange={onOpenChange}
       title="Create Project"
       description="Create a new project to get started"
-      onCancel={() => onOpenChange(false)}
+      onCancel={() => {
+        onOpenChange(false);
+        form.reset();
+      }}
       footer={
         <Button
           className="cursor-pointer"
