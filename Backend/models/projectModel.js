@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const projectSchema = new Schema(
   {
@@ -35,16 +35,16 @@ const projectSchema = new Schema(
         },
         role: {
           type: String,
-          enum: ["manager", "contributer", "viewer"],
+          enum: ["manager", "contributor", "viewer"],
           default: "contributer",
         },
       },
     ],
-    tags: [{ type: String }],
+    tags: [{ tag: { type: String }, color: { type: String } }],
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     isArchieved: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
-const Project = model("Project", projectSchema);
+const Project = mongoose.model("Project", projectSchema);
 export default Project;
