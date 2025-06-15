@@ -8,12 +8,24 @@ import { Form } from "../ui/form";
 import { DynamicForm, type FormElement } from "../customReusable/dynamicForm";
 import { Button } from "../ui/button";
 import { INPUT_TYPES } from "@/lib/constants";
+import { UseCreateProject } from "@/hooks/use-project";
+import { toast } from "sonner";
 
 interface CreateProjectProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   workspaceId: string;
   workspaceMembers: MemberProps[];
+}
+
+export interface ProjectCreateInput {
+  title: string;
+  status: string;
+  description?: string;
+  startDate: string;
+  dueDate: string;
+  tags?: { tag: string; color: string }[];
+  members?: { user: string; role: "manager" | "contributor" | "viewer" }[];
 }
 
 export type CreateProjectFormData = z.infer<typeof projectSchema>;
@@ -24,7 +36,6 @@ export const CreateProject = ({
   workspaceId,
   workspaceMembers,
 }: CreateProjectProps) => {
-  const isPending = false;
   const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -32,8 +43,8 @@ export const CreateProject = ({
       description: "",
       dateGroup: { dueDate: "", startDate: "" },
       status: ProjectStatus.PLANNING,
-      members: [],
       tags: [],
+      members: [],
     },
   });
   const elements: FormElement<CreateProjectFormData>[] = [
@@ -100,23 +111,42 @@ export const CreateProject = ({
       placeholder: "Select Members",
     },
   ];
+
+  const { mutate, isPending } = UseCreateProject();
+
   const onSubmit = (data: CreateProjectFormData) => {
-    const formattedData = {
+    if (!workspaceId) return;
+
+    const formattedData: ProjectCreateInput = {
       title: data.title,
       status: data.status,
       description: data.description,
       startDate: data.dateGroup.startDate,
       dueDate: data.dateGroup.dueDate,
       tags: data.tags,
-      members: data.members?.map(
-        (memberObj: { value: string; role: string }) => ({
-          user: memberObj.value,
-          role: memberObj.role,
-        })
-      ),
+      members: data.members?.map((m) => ({
+        user: m.value,
+        role: m.role,
+      })),
     };
-
-    console.log(formattedData);
+    mutate(
+      {
+        projectData: formattedData,
+        workspaceId,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Project created successfully");
+          form.reset();
+          onOpenChange(false);
+        },
+        onError: (error: any) => {
+          const errorMessage = error.response.data.message;
+          toast.error(errorMessage);
+          console.log(error);
+        },
+      }
+    );
   };
   return (
     <Modal
