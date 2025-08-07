@@ -1,5 +1,5 @@
 import { useAuth } from "@/provider/auth-context";
-import type { Workspace } from "@/types";
+import type { workspace } from "@/types";
 import { Button } from "../ui/button";
 import { Bell, PlusCircle } from "lucide-react";
 import {
@@ -13,22 +13,22 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link, useLoaderData } from "react-router";
-import { WorkspaceAvatar } from "../Workspace/Workspace-avatar";
+import { workspaceAvatar as WorkspaceAvatar } from "../Workspace/Workspace-avatar";
 
 interface HeaderProps {
-  onWorkspaceSelected: (workspace: Workspace) => void;
-  selectedWorkspace: Workspace | null;
-  onCreatedWorkspace: () => void;
+  onworkspaceSelected: (workspace: workspace) => void;
+  selectedworkspace: workspace | null;
+  onCreatedworkspace: () => void;
 }
 
 interface LoaderData {
-  workspaces: Workspace[];
+  workspaces: workspace[];
 }
 
 export const Header = ({
-  onWorkspaceSelected,
-  selectedWorkspace,
-  onCreatedWorkspace,
+  onworkspaceSelected,
+  selectedworkspace,
+  onCreatedworkspace,
 }: HeaderProps) => {
   const { user, logout } = useAuth();
   const loaderData = useLoaderData<LoaderData>();
@@ -40,18 +40,18 @@ export const Header = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              {selectedWorkspace ? (
+              {selectedworkspace ? (
                 <>
-                  {selectedWorkspace.color && (
+                  {selectedworkspace.color && (
                     <WorkspaceAvatar
-                      color={selectedWorkspace.color}
-                      name={selectedWorkspace.name}
+                      color={selectedworkspace.color}
+                      name={selectedworkspace.name}
                     />
                   )}
-                  <span className="font-medium">{selectedWorkspace?.name}</span>
+                  <span className="font-medium">{selectedworkspace?.name}</span>
                 </>
               ) : (
-                <span className="font-medium">Select Workspace</span>
+                <span className="font-medium">Select workspace</span>
               )}
             </Button>
           </DropdownMenuTrigger>
@@ -59,25 +59,25 @@ export const Header = ({
             <DropdownMenuLabel>Wrokspace</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {workspaces.map((useWorkspace) => (
+              {workspaces.map((useworkspace) => (
                 <DropdownMenuItem
-                  key={useWorkspace._id}
-                  onClick={() => onWorkspaceSelected(useWorkspace)}
+                  key={useworkspace._id}
+                  onClick={() => onworkspaceSelected(useworkspace)}
                 >
-                  {useWorkspace.color && (
+                  {useworkspace.color && (
                     <WorkspaceAvatar
-                      color={useWorkspace.color}
-                      name={useWorkspace.name}
+                      color={useworkspace.color}
+                      name={useworkspace.name}
                     />
                   )}
-                  <span className="ml-2">{useWorkspace.name}</span>
+                  <span className="ml-2">{useworkspace.name}</span>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={onCreatedWorkspace}>
+              <DropdownMenuItem onClick={onCreatedworkspace}>
                 <PlusCircle className="w-4 h-4 mr-2" />
-                Create Workspace
+                Create workspace
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

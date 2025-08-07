@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/provider/auth-context";
-import type { Workspace } from "@/types";
+import type { workspace } from "@/types";
 import {
   CheckCircle2,
   ChevronsLeft,
@@ -21,9 +21,9 @@ import { ScrollArea } from "../ui/scroll-area";
 import { SidebarNav } from "./sidebar-nav";
 
 export const Sidebar = ({
-  currentWorkspace,
+  currentworkspace,
 }: {
-  currentWorkspace: Workspace | null;
+  currentworkspace: workspace | null;
 }) => {
   const { user, logout } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -35,7 +35,7 @@ export const Sidebar = ({
       icon: LayoutDashboard,
     },
     {
-      title: "Workspaces",
+      title: "workspaces",
       href: "/workspaces",
       icon: Workflow,
     },
@@ -98,7 +98,7 @@ export const Sidebar = ({
           items={sidebarNavItems}
           isCollapsed={isCollapsed}
           className={cn(isCollapsed && "items-center space-y-2")}
-          currentWorkspace={currentWorkspace}
+          currentworkspace={currentworkspace}
         />
       </ScrollArea>
       <div>

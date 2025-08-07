@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Workspace } from "@/types";
+import type { workspace } from "@/types";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -13,14 +13,14 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   }[];
   isCollapsed: boolean;
   className?: string;
-  currentWorkspace: Workspace | null;
+  currentworkspace: workspace | null;
 }
 
 export const SidebarNav = ({
   items,
   isCollapsed,
   className,
-  currentWorkspace,
+  currentworkspace,
   ...props
 }: SidebarNavProps) => {
   const location = useLocation();
@@ -33,8 +33,8 @@ export const SidebarNav = ({
         const handleClick = () => {
           if (useElement.href === "/workspaces") {
             navigate(useElement.href);
-          } else if (currentWorkspace && currentWorkspace._id) {
-            navigate(`${useElement.href}?workspaceId=${currentWorkspace._id}`);
+          } else if (currentworkspace && currentworkspace._id) {
+            navigate(`${useElement.href}?workspaceId=${currentworkspace._id}`);
           } else {
             navigate(useElement.href);
           }

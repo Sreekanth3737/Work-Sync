@@ -8,7 +8,7 @@ import { Form } from "../ui/form";
 import { DynamicForm, type FormElement } from "../customReusable/dynamicForm";
 import { Button } from "../ui/button";
 import { INPUT_TYPES } from "@/lib/constants";
-import { UseCreateProject } from "@/hooks/use-project";
+import { useCreateProject } from "@/hooks/use-project";
 import { toast } from "sonner";
 
 interface CreateProjectProps {
@@ -52,7 +52,7 @@ export const CreateProject = ({
       name: "title",
       label: "Project Title",
       type: INPUT_TYPES.TEXT,
-      placeholder: "Workspace Name",
+      placeholder: "workspace Name",
     },
     {
       name: "description",
@@ -112,7 +112,7 @@ export const CreateProject = ({
     },
   ];
 
-  const { mutate, isPending } = UseCreateProject();
+  const { mutate, isPending } = useCreateProject();
 
   const onSubmit = (data: CreateProjectFormData) => {
     if (!workspaceId) return;
