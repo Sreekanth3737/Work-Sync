@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/customReusable/loader";
-import { CreateWorkspace } from "@/components/Workspace/create-workspace";
+import { Createworkspace } from "@/components/Workspace/create-workspace";
 import { useGetWorkspacesQuery } from "@/hooks/use-workspace";
-import type { Workspace } from "@/types";
+import type { workspace } from "@/types";
 import { PlusCircle, Users } from "lucide-react";
 import { NoDataFound } from "@/components/customReusable/no-data-found";
 import { Link } from "react-router";
@@ -15,9 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { WorkspaceAvatar } from "@/components/Workspace/Workspace-avatar";
+import { workspaceAvatar as WorkspaceAvatar } from "@/components/Workspace/Workspace-avatar";
 
-const WorkspaceCard = ({ workspace }: { workspace: Workspace }) => {
+const WorkspaceCard = ({ workspace }: { workspace: workspace }) => {
   return (
     <Link to={`/workspaces/${workspace._id}`}>
       <Card className="transition-all hover:shadow-md hover:translate-y-1">
@@ -52,9 +52,9 @@ const WorkspaceCard = ({ workspace }: { workspace: Workspace }) => {
 };
 
 const Workspaces = () => {
-  const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
+  const [isCreatingworkspace, setIsCreatingworkspace] = useState(false);
   const { data: workspaces, isLoading } = useGetWorkspacesQuery() as {
-    data: Workspace[];
+    data: workspace[];
     isLoading: boolean;
   };
 
@@ -66,29 +66,29 @@ const Workspaces = () => {
     <>
       <div className="space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl md:text-3xl font-bold">Workspaces</h2>
-          <Button onClick={() => setIsCreatingWorkspace(true)}>
-            <PlusCircle className="size-4 mr-2" /> New Workspace
+          <h2 className="text-xl md:text-3xl font-bold">workspaces</h2>
+          <Button onClick={() => setIsCreatingworkspace(true)}>
+            <PlusCircle className="size-4 mr-2" /> New workspace
           </Button>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {workspaces.map((useWorkspace) => (
-            <WorkspaceCard key={useWorkspace._id} workspace={useWorkspace} />
+          {workspaces.map((useworkspace) => (
+            <WorkspaceCard key={useworkspace._id} workspace={useworkspace} />
           ))}
           {workspaces.length === 0 && (
             <NoDataFound
               title="No workspaces found"
               description="Create a new workspaces to get started"
-              buttonText="Create Workspace"
-              buttonAction={() => setIsCreatingWorkspace(true)}
+              buttonText="Create workspace"
+              buttonAction={() => setIsCreatingworkspace(true)}
             />
           )}
         </div>
       </div>
 
-      <CreateWorkspace
-        isCreatingWorkspace={isCreatingWorkspace}
-        setIsCreatingWorkspace={setIsCreatingWorkspace}
+      <Createworkspace
+        isCreatingworkspace={isCreatingworkspace}
+        setIsCreatingworkspace={setIsCreatingworkspace}
       />
     </>
   );

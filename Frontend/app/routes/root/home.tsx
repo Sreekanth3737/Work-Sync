@@ -1,16 +1,15 @@
 import React from "react";
-import type { Route } from "../../+types/root";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
-    { title: "ProjectManagementTool" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "TaskHub" },
+    { name: "description", content: "Welcome to TaskHub!" },
   ];
 }
 
-const HomePage = () => {
+const Homepage = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center gap-4">
       <Link to="/sign-in">
@@ -18,11 +17,11 @@ const HomePage = () => {
       </Link>
       <Link to="/sign-up">
         <Button variant="outline" className="bg-blue-500 text-white">
-          Sign up
+          Sign Up
         </Button>
       </Link>
     </div>
   );
 };
 
-export default HomePage;
+export default Homepage;

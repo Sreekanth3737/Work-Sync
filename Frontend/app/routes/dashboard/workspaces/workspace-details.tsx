@@ -1,22 +1,22 @@
 import { Loader } from "@/components/customReusable/loader";
 import { CreateProject } from "@/components/project/create-project";
 import { ProjectList } from "@/components/Workspace/project-list";
-import { WorkspaceHeader } from "@/components/Workspace/workspace-header";
-import { useGetWorkspaceByIdQuery } from "@/hooks/use-workspace";
-import type { Project, Workspace } from "@/types";
+import { workspaceHeader as WorkspaceHeader } from "@/components/Workspace/workspace-header";
+import { useGetWorkspaceQuery } from "@/hooks/use-workspace";
+import type { Project, workspace } from "@/types";
 import { useState } from "react";
 import { useParams } from "react-router";
 
-const WorkspaceDetails = () => {
+const workspaceDetails = () => {
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [isCreateProject, setIsCreateProject] = useState(false);
   const [isInviteMember, setIsInviteMember] = useState(false);
   if (!workspaceId) {
-    return <div>No Workspace found</div>;
+    return <div>No workspace found</div>;
   }
-  const { data, isLoading } = useGetWorkspaceByIdQuery(workspaceId) as {
+  const { data, isLoading } = useGetWorkspaceQuery(workspaceId) as {
     data: {
-      workspace: Workspace;
+      workspace: workspace;
       projects: Project[];
     };
     isLoading: boolean;
@@ -50,4 +50,4 @@ const WorkspaceDetails = () => {
     </div>
   );
 };
-export default WorkspaceDetails;
+export default workspaceDetails;

@@ -3,9 +3,9 @@ import { useAuth } from "@/provider/auth-context";
 import { Navigate, Outlet } from "react-router";
 import { Loader } from "@/components/customReusable/loader";
 import { Header } from "@/components/layout/header";
-import type { Workspace } from "@/types";
+import type { workspace } from "@/types";
 import { Sidebar } from "@/components/layout/sidebar";
-import { CreateWorkspace } from "@/components/Workspace/create-workspace";
+import { Createworkspace } from "@/components/Workspace/create-workspace";
 import { fetchData } from "@/lib/fetch-util";
 
 export const clientLoader = async () => {
@@ -19,8 +19,8 @@ export const clientLoader = async () => {
 
 const DashboardLayout = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
+  const [isCreatingworkspace, setIsCreatingworkspace] = useState(false);
+  const [currentworkspace, setCurrentworkspace] = useState<workspace | null>(
     null
   );
   if (isLoading) {
@@ -30,20 +30,20 @@ const DashboardLayout = () => {
     return <Navigate to="/sign-in" />;
   }
 
-  const handleWorkspaceSelected = (workspace: Workspace) => {
-    setCurrentWorkspace(workspace);
+  const handleworkspaceSelected = (workspace: workspace) => {
+    setCurrentworkspace(workspace);
   };
 
   return (
     <div className="flex h-screen w-full">
       {/* Sidebar Component */}
-      <Sidebar currentWorkspace={currentWorkspace} />
+      <Sidebar currentworkspace={currentworkspace} />
       <div className="flex flex-1 flex-col h-full">
         {/* Header */}
         <Header
-          onWorkspaceSelected={handleWorkspaceSelected}
-          selectedWorkspace={currentWorkspace}
-          onCreatedWorkspace={() => setIsCreatingWorkspace(true)}
+          onworkspaceSelected={handleworkspaceSelected}
+          selectedworkspace={currentworkspace}
+          onCreatedworkspace={() => setIsCreatingworkspace(true)}
         />
         <main className="flex-1 overflow-y-auto h-full w-full">
           <div className="mx-auto container px-2 sm:px-6 lg:px-8 py-0 md:py-8 w-full h-full">
@@ -51,9 +51,9 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
-      <CreateWorkspace
-        isCreatingWorkspace={isCreatingWorkspace}
-        setIsCreatingWorkspace={setIsCreatingWorkspace}
+      <Createworkspace
+        isCreatingworkspace={isCreatingworkspace}
+        setIsCreatingworkspace={setIsCreatingworkspace}
       />
     </div>
   );
