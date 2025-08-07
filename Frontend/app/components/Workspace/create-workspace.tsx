@@ -11,9 +11,9 @@ import { useCreateWorkspace } from "@/hooks/use-workspace";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 
-interface CreateWorkspaceProps {
-  isCreatingWorkspace: boolean;
-  setIsCreatingWorkspace: (isCreatingWorkspace: boolean) => void;
+interface CreateworkspaceProps {
+  isCreatingworkspace: boolean;
+  setIsCreatingworkspace: (isCreatingworkspace: boolean) => void;
 }
 
 export const COLOR_OPTIONS = [
@@ -27,14 +27,14 @@ export const COLOR_OPTIONS = [
   "#34495E", // Navy
 ];
 
-export type WorkspaceForm = z.infer<typeof workspaceSchema>;
+export type workspaceForm = z.infer<typeof workspaceSchema>;
 
-const elements: FormElement<WorkspaceForm>[] = [
+const elements: FormElement<workspaceForm>[] = [
   {
     name: "name",
     label: "Name",
     type: INPUT_TYPES.TEXT,
-    placeholder: "Workspace Name",
+    placeholder: "workspace Name",
   },
   {
     name: "description",
@@ -54,15 +54,15 @@ const elements: FormElement<WorkspaceForm>[] = [
     elementContainerClassName: "flex gap-3 flex-wrap",
   },
 ];
-
-export const CreateWorkspace = ({
-  isCreatingWorkspace,
-  setIsCreatingWorkspace,
-}: CreateWorkspaceProps) => {
+export type WorkspaceForm = z.infer<typeof workspaceSchema>;
+export const Createworkspace = ({
+  isCreatingworkspace,
+  setIsCreatingworkspace,
+}: CreateworkspaceProps) => {
   const navigate = useNavigate();
   const { mutate, isPending } = useCreateWorkspace();
 
-  const form = useForm<WorkspaceForm>({
+  const form = useForm<workspaceForm>({
     resolver: zodResolver(workspaceSchema),
     defaultValues: {
       name: "",
@@ -71,12 +71,12 @@ export const CreateWorkspace = ({
     },
   });
 
-  const onSubmit = (data: WorkspaceForm) => {
+  const onSubmit = (data: workspaceForm) => {
     mutate(data, {
       onSuccess: (data: any) => {
         form.reset();
-        setIsCreatingWorkspace(false);
-        toast.success("Workspace created successfully");
+        setIsCreatingworkspace(false);
+        toast.success("workspace created successfully");
         navigate(`/workspaces/${data._id}`);
       },
       onError: (error: any) => {
@@ -89,10 +89,10 @@ export const CreateWorkspace = ({
 
   return (
     <Modal
-      open={isCreatingWorkspace}
-      onOpenChange={setIsCreatingWorkspace}
-      title="Create Workspace"
-      onCancel={() => setIsCreatingWorkspace(false)}
+      open={isCreatingworkspace}
+      onOpenChange={setIsCreatingworkspace}
+      title="Create workspace"
+      onCancel={() => setIsCreatingworkspace(false)}
       footer={
         <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
           {isPending ? "Creating..." : "Create"}

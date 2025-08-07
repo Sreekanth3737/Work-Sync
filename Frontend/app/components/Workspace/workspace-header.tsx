@@ -1,11 +1,11 @@
-import type { User, Workspace } from "@/types";
-import { WorkspaceAvatar } from "./Workspace-avatar";
+import type { User, workspace } from "@/types";
+import { workspaceAvatar as WorkspaceAvatar } from "./Workspace-avatar";
 import { UserPlus } from "lucide-react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-interface WorkspaceHeaderProps {
-  workspace: Workspace | null;
+interface workspaceHeaderProps {
+  workspace: workspace | null;
   members: {
     _id: string;
     user: User;
@@ -16,12 +16,12 @@ interface WorkspaceHeaderProps {
   onCreateProject: () => void;
   onInviteMember: () => void;
 }
-export const WorkspaceHeader = ({
+export const workspaceHeader = ({
   workspace,
   members,
   onCreateProject,
   onInviteMember,
-}: WorkspaceHeaderProps) => {
+}: workspaceHeaderProps) => {
   return (
     <div className="space-y-8">
       <div className="space-y-3">

@@ -1,8 +1,8 @@
 import type { ProjectCreateInput } from "@/components/project/create-project";
-import { postData } from "@/lib/fetch-util";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postData, fetchData } from "@/lib/fetch-util";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
-export const UseCreateProject = () => {
+export const useCreateProject = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: {
@@ -18,5 +18,12 @@ export const UseCreateProject = () => {
         queryKey: ["workspace", data.workspace],
       });
     },
+  });
+};
+
+export const useProjectQuery = (projectId: string) => {
+  return useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => fetchData(`/projects/${projectId}/tasks`),
   });
 };

@@ -1,4 +1,4 @@
-export const WorkspaceAvatar = ({
+export const workspaceAvatar = ({
   color,
   name,
 }: {
