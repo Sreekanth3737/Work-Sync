@@ -13,17 +13,34 @@ import type {
   TaskTrendsData,
   workspaceProductivityData,
 } from "@/types";
-import { useSearchParams } from "react-router";
+import { useOutletContext } from "react-router";
+import type { workspace } from "@/types";
+
+interface OutletContext {
+  currentworkspace: workspace | null;
+  setCurrentworkspace: (workspace: workspace | null) => void;
+}
 
 const Dashboard = () => {
-  const [searchParams] = useSearchParams();
-  const workspaceId = searchParams.get("workspaceId");
+  const { currentworkspace } = useOutletContext<OutletContext>();
 
-  if (!workspaceId) {
-    return <div>No workspace selected</div>;
+  if (!currentworkspace) {
+    return (
+      <div className="flex items-center justify-center h-64 ">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">No Workspace Selected</h2>
+          <p className="text-gray-500">
+            Please select a workspace from the dropdown in the header to view
+            the dashboard.
+          </p>
+        </div>
+      </div>
+    );
   }
 
-  const { data, isPending } = useGetWorkspaceStatsQuery(workspaceId) as {
+  const { data, isPending } = useGetWorkspaceStatsQuery(
+    currentworkspace._id
+  ) as {
     data: {
       stats: StatsCardProps;
       taskTrendsData: TaskTrendsData[];
@@ -48,6 +65,9 @@ const Dashboard = () => {
     <div className="space-y-8 2xl:space-y-12">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div className="text-sm text-muted-foreground">
+          Workspace: {currentworkspace.name}
+        </div>
       </div>
 
       <StatsCard data={data.stats} />
@@ -60,7 +80,7 @@ const Dashboard = () => {
         workspaceProductivityData={data.workspaceProductivityData}
       />
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2 my-4">
         <RecentProjects data={data.recentProjects} />
         <UpcomingTasks data={data.upcomingTasks} />
       </div>

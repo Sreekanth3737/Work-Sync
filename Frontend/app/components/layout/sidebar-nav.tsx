@@ -34,7 +34,14 @@ export const SidebarNav = ({
           if (useElement.href === "/workspaces") {
             navigate(useElement.href);
           } else if (currentworkspace && currentworkspace._id) {
-            navigate(`${useElement.href}?workspaceId=${currentworkspace._id}`);
+            // For dashboard and other workspace-specific pages, navigate with workspace context
+            if (useElement.href === "/dashboard") {
+              navigate(useElement.href);
+            } else {
+              navigate(
+                `${useElement.href}?workspaceId=${currentworkspace._id}`
+              );
+            }
           } else {
             navigate(useElement.href);
           }

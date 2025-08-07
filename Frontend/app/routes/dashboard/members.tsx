@@ -1,4 +1,3 @@
-import { Loader } from "@/components/customReusable/loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,20 +24,26 @@ import {
   useUpdateMemberRoleMutation,
 } from "@/hooks/use-workspace";
 import { InviteMemberDialog } from "@/components/Workspace/invite-member-dialog";
+import { Loader } from "@/components/customReusable/loader";
 import type { workspace } from "@/types";
 import { format } from "date-fns";
 import { MoreHorizontal, Plus, UserPlus, Search } from "lucide-react";
 import React, { useEffect, useState, useMemo } from "react";
-import { useSearchParams } from "react-router";
+import { useSearchParams, useOutletContext } from "react-router";
 import { toast } from "sonner";
 import { useAuth } from "@/provider/auth-context";
+
+interface OutletContext {
+  currentworkspace: workspace | null;
+  setCurrentworkspace: (workspace: workspace | null) => void;
+}
 
 const Members = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
+  const { currentworkspace } = useOutletContext<OutletContext>();
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
 
-  const workspaceId = searchParams.get("workspaceId");
   const initialSearch = searchParams.get("search") || "";
   const [search, setSearch] = useState<string>(initialSearch);
   const [debouncedSearch, setDebouncedSearch] = useState<string>(initialSearch);
@@ -76,14 +81,15 @@ const Members = () => {
     }
   }, [searchParams]);
 
-  // Early return if no workspaceId
-  if (!workspaceId) {
+  // Early return if no workspace selected
+  if (!currentworkspace) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2">No Workspace Selected</h2>
           <p className="text-gray-500">
-            Please select a workspace to view members.
+            Please select a workspace from the dropdown in the header to view
+            members.
           </p>
         </div>
       </div>
@@ -91,7 +97,7 @@ const Members = () => {
   }
 
   const { data, isLoading } = useGetWorkspaceDetailsQuery(
-    workspaceId,
+    currentworkspace._id,
     debouncedSearch
   ) as {
     data: workspace;
@@ -124,7 +130,7 @@ const Members = () => {
       )
     ) {
       removeMember(
-        { workspaceId, memberId },
+        { workspaceId: currentworkspace._id, memberId },
         {
           onSuccess: () => {
             toast.success("Member removed successfully");
@@ -141,7 +147,7 @@ const Members = () => {
 
   const handleUpdateRole = (memberId: string, newRole: string) => {
     updateMemberRole(
-      { workspaceId, memberId, role: newRole },
+      { workspaceId: currentworkspace._id, memberId, role: newRole },
       {
         onSuccess: () => {
           toast.success("Member role updated successfully");
@@ -441,7 +447,7 @@ const Members = () => {
       <InviteMemberDialog
         isOpen={isInviteDialogOpen}
         onOpenChange={setIsInviteDialogOpen}
-        workspaceId={workspaceId}
+        workspaceId={currentworkspace._id}
       />
     </div>
   );

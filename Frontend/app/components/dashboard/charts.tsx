@@ -3,7 +3,7 @@ import type {
   StatsCardProps,
   TaskPriorityData,
   TaskTrendsData,
-  workspaceProductivityData,
+  WorkspaceProductivityData,
 } from "@/types";
 import {
   Card,
@@ -38,7 +38,7 @@ interface StatisticsChartsProps {
   taskTrendsData: TaskTrendsData[];
   projectStatusData: ProjectStatusData[];
   taskPriorityData: TaskPriorityData[];
-  workspaceProductivityData: workspaceProductivityData[];
+  workspaceProductivityData: WorkspaceProductivityData[];
 }
 
 export const StatisticsCharts = ({
@@ -130,16 +130,16 @@ export const StatisticsCharts = ({
         </CardHeader>
 
         <CardContent className="w-full overflow-x-auto md:overflow-x-hidden">
-          <div className="min-w-[350px]">
+          <div className="min-w-[350px] w-full flex justify-center">
             <ChartContainer
-              className="h-[300px]"
+              className="h-[300px] w-full max-w-[400px]"
               config={{
                 Completed: { color: "#10b981" },
                 "In Progress": { color: "#3b82f6" },
                 Planning: { color: "#f59e0b" },
               }}
             >
-              <PieChart>
+              <PieChart width="100%" height="100%">
                 <Pie
                   data={projectStatusData}
                   cx="50%"
@@ -214,12 +214,12 @@ export const StatisticsCharts = ({
         </CardContent>
       </Card>
 
-      {/* workspace Productivity Chart */}
+      {/* Workspace Productivity Chart */}
       <Card className="lg:col-span-2">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <div className="space-y-0.5">
             <CardTitle className="text-base font-medium">
-              workspace Productivity
+              Workspace Productivity
             </CardTitle>
             <CardDescription>Task completion by project</CardDescription>
           </div>
