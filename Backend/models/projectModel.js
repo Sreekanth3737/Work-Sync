@@ -13,7 +13,7 @@ const projectSchema = new Schema(
     },
     workspace: {
       type: Schema.Types.ObjectId,
-      ref: "Wrokspace",
+      ref: "Workspace",
       required: true,
     },
     status: {

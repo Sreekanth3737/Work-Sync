@@ -212,13 +212,15 @@ const updateTaskStatus = async (req, res) => {
       });
     }
 
+    // Check if user is a member of the project or the project creator
     const isMember = project.members.some(
       (member) => member.user.toString() === req.user._id.toString()
     );
+    const isCreator = project.createdBy.toString() === req.user._id.toString();
 
-    if (!isMember) {
+    if (!isMember && !isCreator) {
       return res.status(403).json({
-        message: "You are not a member of this project",
+        message: "You are not authorized to update this task",
       });
     }
 
@@ -261,13 +263,15 @@ const updateTaskAssignees = async (req, res) => {
       });
     }
 
+    // Check if user is a member of the project or the project creator
     const isMember = project.members.some(
       (member) => member.user.toString() === req.user._id.toString()
     );
+    const isCreator = project.createdBy.toString() === req.user._id.toString();
 
-    if (!isMember) {
+    if (!isMember && !isCreator) {
       return res.status(403).json({
-        message: "You are not a member of this project",
+        message: "You are not authorized to update this task",
       });
     }
 
@@ -310,13 +314,15 @@ const updateTaskPriority = async (req, res) => {
       });
     }
 
+    // Check if user is a member of the project or the project creator
     const isMember = project.members.some(
       (member) => member.user.toString() === req.user._id.toString()
     );
+    const isCreator = project.createdBy.toString() === req.user._id.toString();
 
-    if (!isMember) {
+    if (!isMember && !isCreator) {
       return res.status(403).json({
-        message: "You are not a member of this project",
+        message: "You are not authorized to update this task",
       });
     }
 

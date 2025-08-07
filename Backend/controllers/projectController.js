@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Project from "../models/projectModel.js";
 import Workspace from "../models/workspaceModel.js";
+import Task from "../models/taskModel.js";
 
 const createProject = async (req, res) => {
   try {
@@ -43,8 +44,6 @@ const createProject = async (req, res) => {
 
     return res.status(201).json(newProject);
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
     console.error(error);
     return res.status(500).json({
       message: "Internal server error",
@@ -52,4 +51,53 @@ const createProject = async (req, res) => {
   }
 };
 
-export { createProject };
+const getProjectWithTasks = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const project = await Project.findById(projectId)
+      .populate("createdBy", "name email profilePicture")
+      .populate("members.user", "name email profilePicture");
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
+    }
+
+    // Get workspace separately to avoid populate issues
+    const workspace = await Workspace.findById(project.workspace);
+    if (!workspace) {
+      return res.status(404).json({
+        message: "Workspace not found",
+      });
+    }
+
+    // Check if user is a member of the workspace
+    const isMember = workspace.members.some(
+      (member) => member.user.toString() === req.user._id.toString()
+    );
+
+    if (!isMember) {
+      return res.status(403).json({
+        message: "You are not authorized to access this project",
+      });
+    }
+
+    const tasks = await Task.find({ project: projectId })
+      .populate("assignees", "name email profilePicture")
+      .populate("createdBy", "name email profilePicture");
+
+    return res.status(200).json({
+      project,
+      tasks,
+    });
+  } catch (error) {
+    console.error("Error in getProjectWithTasks:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export { createProject, getProjectWithTasks };
