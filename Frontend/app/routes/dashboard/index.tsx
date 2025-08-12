@@ -24,6 +24,25 @@ interface OutletContext {
 const Dashboard = () => {
   const { currentworkspace } = useOutletContext<OutletContext>();
 
+  // Always call the hook, but disable it when no workspace is selected
+  const { data, isPending } = useGetWorkspaceStatsQuery(
+    currentworkspace?._id || ""
+  ) as {
+    data:
+      | {
+          stats: StatsCardProps;
+          taskTrendsData: TaskTrendsData[];
+          projectStatusData: ProjectStatusData[];
+          taskPriorityData: TaskPriorityData[];
+          workspaceProductivityData: workspaceProductivityData[];
+          upcomingTasks: Task[];
+          recentProjects: Project[];
+        }
+      | undefined;
+    isPending: boolean;
+  };
+
+  // Early return after all hooks have been called
   if (!currentworkspace) {
     return (
       <div className="flex items-center justify-center h-64 ">
@@ -38,25 +57,24 @@ const Dashboard = () => {
     );
   }
 
-  const { data, isPending } = useGetWorkspaceStatsQuery(
-    currentworkspace._id
-  ) as {
-    data: {
-      stats: StatsCardProps;
-      taskTrendsData: TaskTrendsData[];
-      projectStatusData: ProjectStatusData[];
-      taskPriorityData: TaskPriorityData[];
-      workspaceProductivityData: workspaceProductivityData[];
-      upcomingTasks: Task[];
-      recentProjects: Project[];
-    };
-    isPending: boolean;
-  };
-
   if (isPending) {
     return (
       <div>
         <Loader />
+      </div>
+    );
+  }
+
+  // Add safety check for data
+  if (!data) {
+    return (
+      <div className="flex items-center justify-center h-64 ">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">No Data Available</h2>
+          <p className="text-gray-500">
+            Unable to load workspace data at this time.
+          </p>
+        </div>
       </div>
     );
   }
