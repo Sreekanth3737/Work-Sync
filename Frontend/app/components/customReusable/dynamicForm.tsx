@@ -53,6 +53,7 @@ interface DynamicFormProps<T extends FieldValues> {
   hideSubmitButton?: boolean;
   isPending?: boolean;
   containerClassName?: string;
+  onCancel?: () => void;
 }
 
 export const DynamicForm = <T extends FieldValues>({
@@ -62,6 +63,7 @@ export const DynamicForm = <T extends FieldValues>({
   hideSubmitButton = false,
   isPending = false,
   containerClassName,
+  onCancel = () => {},
 }: DynamicFormProps<T>) => {
   const renderFormControl = (element: FormElement<T>, field: any) => {
     switch (element.type) {
@@ -434,7 +436,15 @@ export const DynamicForm = <T extends FieldValues>({
         />
       ))}
       {!hideSubmitButton && (
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 gap-2">
+          <Button
+            className="cursor-pointer"
+            variant="outline"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+
           <Button type="submit" disabled={isPending}>
             {isPending ? "Submitting..." : "Submit"}
           </Button>
