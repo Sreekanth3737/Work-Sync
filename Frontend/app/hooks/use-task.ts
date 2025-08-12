@@ -1,6 +1,6 @@
 import type { CreateTaskFormData } from "@/components/task/create-task-dialog";
 import { fetchData, postData, updateData } from "@/lib/fetch-util";
-import type { TaskPriority, TaskStatus } from "@/types";
+import type { Task, TaskPriority, TaskStatus } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateTaskMutation = () => {
@@ -220,7 +220,7 @@ export const useGetMyTasksQuery = () => {
 };
 
 export const useGetArchivedTasksQuery = () => {
-  return useQuery({
+  return useQuery<Task[]>({
     queryKey: ["archived-tasks"],
     queryFn: () => fetchData("/tasks/archived"),
   });

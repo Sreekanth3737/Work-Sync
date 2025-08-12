@@ -6,6 +6,7 @@ export interface User {
   isEmailVerified: boolean;
   profilePicture?: string;
   updatedAt: Date;
+  avatar?: string;
 }
 
 export interface Member {
