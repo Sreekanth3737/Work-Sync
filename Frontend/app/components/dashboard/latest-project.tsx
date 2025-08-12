@@ -7,7 +7,8 @@ import { Progress } from "../ui/progress";
 
 export const RecentProjects = ({ data }: { data: Project[] }) => {
   const [searchParams] = useSearchParams();
-  const workspaceId = searchParams.get("workspaceId");
+  const workspaceId =
+    localStorage.getItem("workspaceId") || searchParams.get("workspaceId");
 
   return (
     <Card className="lg:col-spa-2 mb-4">
@@ -28,7 +29,7 @@ export const RecentProjects = ({ data }: { data: Project[] }) => {
               <div key={project._id} className="border rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <Link
-                    to={`/workspaces${workspaceId}/projects/${project._id}`}
+                    to={`/workspaces/${workspaceId}/projects/${project._id}`}
                   >
                     <h3 className="font-medium hover:text-primary transition-colors">
                       {project.title}

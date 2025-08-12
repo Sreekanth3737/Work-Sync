@@ -12,8 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useLocation } from "react-router";
 import { workspaceAvatar as WorkspaceAvatar } from "../Workspace/Workspace-avatar";
+import { useEffect } from "react";
 
 interface HeaderProps {
   onworkspaceSelected: (workspace: workspace) => void;
@@ -33,6 +34,25 @@ export const Header = ({
   const { user, logout } = useAuth();
   const loaderData = useLoaderData<LoaderData>();
   const workspaces = loaderData?.workspaces;
+  const workspaceId = localStorage.getItem("workspaceId");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (
+      workspaceId &&
+      workspaces &&
+      !selectedworkspace &&
+      location.pathname.includes("/dashboard")
+    ) {
+      const matchingWorkspace = workspaces.find(
+        (workspace) => workspace._id === workspaceId
+      );
+      console.log("Matching workspace:", matchingWorkspace);
+      if (matchingWorkspace) {
+        onworkspaceSelected(matchingWorkspace);
+      }
+    }
+  }, [workspaceId, workspaces, selectedworkspace, onworkspaceSelected]);
 
   return (
     <div className="bg-background sticky top-0 z-40 border-b">

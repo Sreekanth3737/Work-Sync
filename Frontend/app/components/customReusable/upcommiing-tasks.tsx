@@ -12,8 +12,7 @@ import { CheckCircle2, Circle } from "lucide-react";
 import { format } from "date-fns";
 
 export const UpcomingTasks = ({ data }: { data: Task[] }) => {
-  const [searchParams] = useSearchParams();
-  const workspaceId = searchParams.get("workspaceId");
+  const workspaceId = localStorage.getItem("workspaceId");
 
   return (
     <Card className="mb-4">
