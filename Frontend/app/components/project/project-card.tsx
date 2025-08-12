@@ -10,7 +10,7 @@ import {
 import { cn, getTaskStatusColor } from "@/lib/utils";
 import { Progress } from "../ui/progress";
 import { format } from "date-fns";
-import { Calendar1Icon, CalendarDays } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 
 interface ProjectCardProps {
   project: Project;

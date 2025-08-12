@@ -27,8 +27,8 @@ import { InviteMemberDialog } from "@/components/Workspace/invite-member-dialog"
 import { Loader } from "@/components/customReusable/loader";
 import type { workspace } from "@/types";
 import { format } from "date-fns";
-import { MoreHorizontal, Plus, UserPlus, Search } from "lucide-react";
-import React, { useEffect, useState, useMemo } from "react";
+import { MoreHorizontal, UserPlus, Search } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useOutletContext } from "react-router";
 import { toast } from "sonner";
 import { useAuth } from "@/provider/auth-context";

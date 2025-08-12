@@ -9,7 +9,6 @@ import {
   ListCheck,
   LogOut,
   Settings,
-  User,
   Users,
   Workflow,
   Wrench,
