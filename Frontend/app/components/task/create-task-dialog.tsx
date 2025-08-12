@@ -66,13 +66,11 @@ export const CreateTaskDialog = ({
     onOpenChange(false);
   };
 
-  // Convert project members to options format for multiselect
   const assigneeOptions = projectMembers.map((member) => ({
     label: member.user.name,
     value: member.user._id,
   }));
 
-  // Define form elements using the FormElement interface
   const formElements: FormElement<CreateTaskFormData>[] = [
     {
       name: "title",
