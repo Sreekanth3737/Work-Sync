@@ -12,13 +12,28 @@ const MONGO_URI =
   process.env.MONGO_URI || "mongodb://localhost:27017/project_management";
 
 // Middlewares
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // from Render env var
+  "http://localhost:5173",
+  "https://work-sync-rho.vercel.app",
+].filter(Boolean); // remove undefined/null
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173/",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., Postman) or allowed origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // enable if you plan to use cookies or auth headers
   })
 );
+
 app.use(morgan("dev"));
 
 // Connect to MongoDB
