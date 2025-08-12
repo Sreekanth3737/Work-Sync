@@ -1,5 +1,6 @@
 import { Loader } from "@/components/customReusable/loader";
 import { CreateProject } from "@/components/project/create-project";
+import { InviteMemberDialog } from "@/components/Workspace/invite-member-dialog";
 import { ProjectList } from "@/components/Workspace/project-list";
 import { workspaceHeader as WorkspaceHeader } from "@/components/Workspace/workspace-header";
 import { useGetWorkspaceQuery } from "@/hooks/use-workspace";
@@ -46,6 +47,11 @@ const workspaceDetails = () => {
         onOpenChange={setIsCreateProject}
         workspaceId={workspaceId}
         workspaceMembers={data.workspace.members as any}
+      />
+      <InviteMemberDialog
+        isOpen={isInviteMember}
+        onOpenChange={setIsInviteMember}
+        workspaceId={workspaceId}
       />
     </div>
   );
