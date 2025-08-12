@@ -41,8 +41,6 @@ export const CreateTaskDialog = ({
   const { mutate, isPending } = useCreateTaskMutation();
 
   const onSubmit = (values: CreateTaskFormData) => {
-    console.log("Form submitted with values:", values);
-
     mutate(
       {
         projectId,
@@ -92,31 +90,23 @@ export const CreateTaskDialog = ({
     {
       name: "status",
       label: "Status",
-      type: INPUT_TYPES.GROUP,
-      elementContainerClassName: "grid gap-4 md:grid-cols-2",
-      children: [
-        {
-          name: "status",
-          label: "Status",
-          type: INPUT_TYPES.SELECT,
-          placeholder: "Select status",
-          options: [
-            { label: "To Do", value: "To Do" },
-            { label: "In Progress", value: "In Progress" },
-            { label: "Done", value: "Done" },
-          ],
-        },
-        {
-          name: "priority",
-          label: "Priority",
-          type: INPUT_TYPES.SELECT,
-          placeholder: "Select priority",
-          options: [
-            { label: "Low", value: "Low" },
-            { label: "Medium", value: "Medium" },
-            { label: "High", value: "High" },
-          ],
-        },
+      type: INPUT_TYPES.SELECT,
+      placeholder: "Select status",
+      options: [
+        { label: "To Do", value: "To Do" },
+        { label: "In Progress", value: "In Progress" },
+        { label: "Done", value: "Done" },
+      ],
+    },
+    {
+      name: "priority",
+      label: "Priority",
+      type: INPUT_TYPES.SELECT,
+      placeholder: "Select priority",
+      options: [
+        { label: "Low", value: "Low" },
+        { label: "Medium", value: "Medium" },
+        { label: "High", value: "High" },
       ],
     },
     {
@@ -131,8 +121,19 @@ export const CreateTaskDialog = ({
       type: INPUT_TYPES.MULTISELECT_WITH_OPTIONS,
       placeholder: "Select assignees",
       options: assigneeOptions,
+      simpleValues: true,
     },
   ];
+
+  const modalFooter = (
+    <Button
+      type="button"
+      onClick={() => form.handleSubmit(onSubmit)()}
+      disabled={isPending}
+    >
+      {isPending ? "Creating..." : "Create Task"}
+    </Button>
+  );
 
   return (
     <Modal
@@ -140,7 +141,8 @@ export const CreateTaskDialog = ({
       onOpenChange={onOpenChange}
       title="Create Task"
       description="Create a new task for your project"
-      showCancelButton={false}
+      onCancel={handleCancel}
+      footer={modalFooter}
       size="lg"
     >
       <Form {...form}>
@@ -148,7 +150,7 @@ export const CreateTaskDialog = ({
           form={form}
           elements={formElements}
           onSubmit={onSubmit}
-          onCancel={handleCancel}
+          hideSubmitButton={true}
           isPending={isPending}
           containerClassName="space-y-6"
         />

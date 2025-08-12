@@ -44,6 +44,7 @@ export interface FormElement<T extends FieldValues> {
   children?: FormElement<T>[];
   subOptionKey?: string;
   subOptions?: { label: string; value: string }[];
+  simpleValues?: boolean;
 }
 
 interface DynamicFormProps<T extends FieldValues> {
@@ -289,20 +290,34 @@ export const DynamicForm = <T extends FieldValues>({
         const options = element.options || [];
         const selectedItems = field.value || [];
         const subOptionKey = element.subOptionKey || "subOptionKey";
-        console.log(selectedItems, "selectedItemss");
+
         const handleCheckboxChange = (checked: boolean, option: any) => {
           if (checked) {
-            field.onChange([
-              ...selectedItems,
-              {
-                value: option.value,
-                [subOptionKey]: element.subOptions?.[0]?.value || "",
-              },
-            ]);
+            if (element.simpleValues) {
+              // For simple values, just store the option value
+              field.onChange([...selectedItems, option.value]);
+            } else {
+              // For complex objects with sub-options
+              field.onChange([
+                ...selectedItems,
+                {
+                  value: option.value,
+                  [subOptionKey]: element.subOptions?.[0]?.value || "",
+                },
+              ]);
+            }
           } else {
-            field.onChange(
-              selectedItems.filter((item: any) => item.value !== option.value)
-            );
+            if (element.simpleValues) {
+              // Remove the simple value
+              field.onChange(
+                selectedItems.filter((item: any) => item !== option.value)
+              );
+            } else {
+              // Remove the complex object
+              field.onChange(
+                selectedItems.filter((item: any) => item.value !== option.value)
+              );
+            }
           }
         };
 
@@ -319,6 +334,48 @@ export const DynamicForm = <T extends FieldValues>({
           );
         };
 
+        // Update the selectedItem check
+        const getSelectedItem = (optionValue: string) => {
+          if (element.simpleValues) {
+            return selectedItems.includes(optionValue);
+          } else {
+            return selectedItems.find(
+              (item: any) => item.value === optionValue
+            );
+          }
+        };
+
+        // Update the display logic
+        const getDisplayText = () => {
+          if (selectedItems.length === 0) {
+            return element.placeholder || "Select Options";
+          }
+
+          if (selectedItems.length <= 3) {
+            if (element.simpleValues) {
+              return selectedItems
+                .map((itemValue: string) => {
+                  const matched = options.find(
+                    (opt: any) => opt.value === itemValue
+                  );
+                  return matched?.label;
+                })
+                .join(", ");
+            } else {
+              return selectedItems
+                .map((item: any) => {
+                  const matched = options.find(
+                    (opt: any) => opt.value === item.value
+                  );
+                  return matched?.label;
+                })
+                .join(", ");
+            }
+          }
+
+          return `${selectedItems.length} selected`;
+        };
+
         return (
           <Popover open={isOpenPopover} onOpenChange={setIsOpenPopover}>
             <PopoverTrigger asChild>
@@ -326,22 +383,13 @@ export const DynamicForm = <T extends FieldValues>({
                 variant={"outline"}
                 className="w-full justify-start text-left font-normal min-h-11"
               >
-                {selectedItems.length === 0 ? (
-                  <span className="text-muted-foreground">
-                    {element.placeholder || "Select Options"}
-                  </span>
-                ) : selectedItems.length <= 3 ? (
-                  selectedItems
-                    .map((item: any) => {
-                      const matched = options.find(
-                        (opt: any) => opt.value === item.value
-                      );
-                      return matched?.label;
-                    })
-                    .join(", ")
-                ) : (
-                  `${selectedItems.length} selected`
-                )}
+                <span
+                  className={
+                    selectedItems.length === 0 ? "text-muted-foreground" : ""
+                  }
+                >
+                  {getDisplayText()}
+                </span>
               </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -362,9 +410,8 @@ export const DynamicForm = <T extends FieldValues>({
               </div>
               <div className="flex flex-col gap-2">
                 {options.map((option: any) => {
-                  const selectedItem = selectedItems.find(
-                    (item: any) => item.value === option.value
-                  );
+                  const isSelected = getSelectedItem(option.value);
+                  const selectedItem = element.simpleValues ? null : isSelected;
 
                   return (
                     <div
@@ -372,7 +419,7 @@ export const DynamicForm = <T extends FieldValues>({
                       className="flex items-center gap-2 p-2 border rounded"
                     >
                       <Checkbox
-                        checked={!!selectedItem}
+                        checked={!!isSelected}
                         onCheckedChange={(checked: boolean) =>
                           handleCheckboxChange(checked, option)
                         }
@@ -380,32 +427,34 @@ export const DynamicForm = <T extends FieldValues>({
                       />
                       <span className="truncate flex-1">{option.label}</span>
 
-                      <div className="w-36">
-                        {selectedItem && element.subOptions ? (
-                          <Select
-                            value={selectedItem[subOptionKey]}
-                            onValueChange={(newValue) =>
-                              handleSubOptionChange(option.value, newValue)
-                            }
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Option" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {element.subOptions.map((subOption: any) => (
-                                <SelectItem
-                                  key={subOption.value}
-                                  value={subOption.value}
-                                >
-                                  {subOption.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <div className="h-6"></div>
-                        )}
-                      </div>
+                      {!element.simpleValues && (
+                        <div className="w-36">
+                          {selectedItem && element.subOptions ? (
+                            <Select
+                              value={selectedItem[subOptionKey]}
+                              onValueChange={(newValue) =>
+                                handleSubOptionChange(option.value, newValue)
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Option" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {element.subOptions.map((subOption: any) => (
+                                  <SelectItem
+                                    key={subOption.value}
+                                    value={subOption.value}
+                                  >
+                                    {subOption.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <div className="h-6"></div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -445,7 +494,7 @@ export const DynamicForm = <T extends FieldValues>({
             Cancel
           </Button>
 
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" className="cursor-pointer" disabled={isPending}>
             {isPending ? "Submitting..." : "Submit"}
           </Button>
         </div>
