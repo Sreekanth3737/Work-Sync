@@ -200,7 +200,7 @@ export const useAchievedTaskMutation = () => {
 
   return useMutation({
     mutationFn: (data: { taskId: string }) =>
-      postData(`/tasks/${data.taskId}/achieved`, {}),
+      postData(`/tasks/${data.taskId}/archieved`, {}),
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({
         queryKey: ["task", data._id],

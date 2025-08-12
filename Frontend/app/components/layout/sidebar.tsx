@@ -50,8 +50,8 @@ export const Sidebar = ({
       icon: Users,
     },
     {
-      title: "Achieved",
-      href: "/achieved",
+      title: "Archieved",
+      href: "/archieved",
       icon: CheckCircle2,
     },
     {

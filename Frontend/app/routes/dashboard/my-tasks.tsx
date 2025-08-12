@@ -76,7 +76,7 @@ const MyTasks = () => {
             if (filter === "todo") return task.status === "To Do";
             if (filter === "inprogress") return task.status === "In Progress";
             if (filter === "done") return task.status === "Done";
-            if (filter === "achieved") return task.isArchived === true;
+            if (filter === "archived") return task.isArchieved === true;
             if (filter === "high") return task.priority === "High";
 
             return true;
@@ -116,9 +116,8 @@ const MyTasks = () => {
         <h1 className="text-2xl font-bold">My Tasks</h1>
 
         <div
-          className="flex flex-col items-start md:flex-row md"
+          className="flex flex-col items-start md:flex-row md gap-2"
           itemScope
-          gap-2
         >
           <Button
             variant={"outline"}
@@ -151,7 +150,7 @@ const MyTasks = () => {
               <DropdownMenuItem onClick={() => setFilter("done")}>
                 Done
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("achieved")}>
+              <DropdownMenuItem onClick={() => setFilter("archieved")}>
                 Achieved
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setFilter("high")}>
@@ -228,7 +227,7 @@ const MyTasks = () => {
                               </Badge>
                             )}
 
-                            {task.isArchived && (
+                            {task.isArchieved && (
                               <Badge variant={"outline"}>Archived</Badge>
                             )}
                           </div>

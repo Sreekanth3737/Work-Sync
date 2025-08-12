@@ -587,7 +587,7 @@ const watchTask = async (req, res) => {
   }
 };
 
-const achievedTask = async (req, res) => {
+const archievedTask = async (req, res) => {
   try {
     const { taskId } = req.params;
 
@@ -623,7 +623,7 @@ const achievedTask = async (req, res) => {
 
     // record activity
     await recordActivity(req.user._id, "updated_task", "Task", taskId, {
-      description: `${isArchieved ? "unachieved" : "achieved"} task ${
+      description: `${isArchieved ? "unarchieved" : "archieved"} task ${
         task.title
       }`,
     });
@@ -658,7 +658,7 @@ const getArchivedTasks = async (req, res) => {
     const userId = req.user._id; // from authMiddleware
     const archivedTasks = await Task.find({
       assignees: userId,
-      isArchieved: true, // assuming achievedTask sets this flag
+      isArchieved: true, // assuming archievedTask sets this flag
     })
       .populate("assignees", "name avatar")
       .sort({ updatedAt: -1 });
@@ -683,7 +683,7 @@ export {
   getCommentsByTaskId,
   addComment,
   watchTask,
-  achievedTask,
+  archievedTask,
   getMyTasks,
   getArchivedTasks,
 };

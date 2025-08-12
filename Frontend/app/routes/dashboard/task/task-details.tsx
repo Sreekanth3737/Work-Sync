@@ -40,7 +40,7 @@ const TaskDetails = () => {
     isLoading: boolean;
   };
   const { mutate: watchTask, isPending: isWatching } = useWatchTaskMutation();
-  const { mutate: achievedTask, isPending: isAchieved } =
+  const { mutate: archievedTask, isPending: isArchieved } =
     useAchievedTaskMutation();
 
   if (isLoading) {
@@ -83,11 +83,11 @@ const TaskDetails = () => {
   };
 
   const handleAchievedTask = () => {
-    achievedTask(
+    archievedTask(
       { taskId: task._id },
       {
         onSuccess: () => {
-          toast.success("Task achieved");
+          toast.success("Task archieved");
         },
         onError: () => {
           toast.error("Failed to achieve task");
@@ -104,7 +104,7 @@ const TaskDetails = () => {
 
           <h1 className="text-xl md:text-2xl font-bold">{task.title}</h1>
 
-          {task.isArchived && (
+          {task.isArchieved && (
             <Badge className="ml-2" variant={"outline"}>
               Archived
             </Badge>
@@ -137,9 +137,9 @@ const TaskDetails = () => {
             size="sm"
             onClick={handleAchievedTask}
             className="w-fit"
-            disabled={isAchieved}
+            disabled={isArchieved}
           >
-            {task.isArchived ? "Unarchive" : "Archive"}
+            {task.isArchieved ? "Unarchive" : "Archive"}
           </Button>
         </div>
       </div>

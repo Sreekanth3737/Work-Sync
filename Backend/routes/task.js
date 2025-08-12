@@ -4,7 +4,7 @@ import { z } from "zod";
 import { validateRequest } from "zod-express-middleware";
 import { taskSchema } from "../libs/validate-schema.js";
 import {
-  achievedTask,
+  archievedTask,
   addComment,
   addSubTask,
   createTask,
@@ -69,12 +69,12 @@ router.post(
 );
 
 router.post(
-  "/:taskId/achieved",
+  "/:taskId/archieved",
   authMiddleware,
   validateRequest({
     params: z.object({ taskId: z.string() }),
   }),
-  achievedTask
+  archievedTask
 );
 
 router.put(

@@ -49,7 +49,7 @@ export interface Project {
     user: User;
     role: "admin" | "member" | "owner" | "viewer";
   }[];
-  isArchived: boolean;
+  isArchieved: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -82,7 +82,7 @@ export interface Task {
   project: Project;
   createdAt: Date;
   updatedAt: Date;
-  isArchived: boolean;
+  isArchieved: boolean;
   dueDate: Date;
   priority: TaskPriority;
   asignee: User | string;
