@@ -616,14 +616,14 @@ const achievedTask = async (req, res) => {
         message: "You are not a member of this project",
       });
     }
-    const isAchieved = task.isArchived;
+    const isArchieved = task.isArchieved;
 
-    task.isArchived = !isAchieved;
+    task.isArchieved = !isArchieved;
     await task.save();
 
     // record activity
     await recordActivity(req.user._id, "updated_task", "Task", taskId, {
-      description: `${isAchieved ? "unachieved" : "achieved"} task ${
+      description: `${isArchieved ? "unachieved" : "achieved"} task ${
         task.title
       }`,
     });
@@ -653,6 +653,22 @@ const getMyTasks = async (req, res) => {
   }
 };
 
+const getArchivedTasks = async (req, res) => {
+  try {
+    const userId = req.user._id; // from authMiddleware
+    const archivedTasks = await Task.find({
+      assignees: userId,
+      isArchieved: true, // assuming achievedTask sets this flag
+    })
+      .populate("assignees", "name avatar")
+      .sort({ updatedAt: -1 });
+
+    res.status(200).json(archivedTasks);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching archived tasks", error });
+  }
+};
+
 export {
   createTask,
   getTaskById,
@@ -669,4 +685,5 @@ export {
   watchTask,
   achievedTask,
   getMyTasks,
+  getArchivedTasks,
 };
