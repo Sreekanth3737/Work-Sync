@@ -56,7 +56,7 @@ export const SubTasksDetails = ({
   };
 
   return (
-    <div className="mb-6">
+    <div className="my-4">
       <h3 className="text-sm font-medium text-muted-foreground mb-0">
         Sub Tasks
       </h3>
