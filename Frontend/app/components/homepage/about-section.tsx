@@ -1,5 +1,15 @@
 import React from "react";
-import { FolderOpen, Users, Move3D } from "lucide-react";
+import {
+  FolderOpen,
+  Users,
+  Move3D,
+  MessageSquare,
+  Activity,
+  Archive,
+  Eye,
+  Bell,
+  Calendar,
+} from "lucide-react";
 
 const ABOUT_HIGHLIGHTS = [
   {
@@ -20,11 +30,47 @@ const ABOUT_HIGHLIGHTS = [
     title: "Intuitive Interface",
     subtitle: "Drag, drop, and manage easily",
   },
+  {
+    icon: <MessageSquare className="w-8 h-8 text-green-600" />,
+    bgColor: "bg-green-100",
+    title: "Real-time Comments",
+    subtitle: "Discuss and provide feedback instantly",
+  },
+  {
+    icon: <Activity className="w-8 h-8 text-orange-600" />,
+    bgColor: "bg-orange-100",
+    title: "Activity Logs",
+    subtitle: "Track all changes and updates",
+  },
+  {
+    icon: <Archive className="w-8 h-8 text-gray-600" />,
+    bgColor: "bg-gray-100",
+    title: "Smart Archiving",
+    subtitle: "Keep completed projects organized",
+  },
+  {
+    icon: <Eye className="w-8 h-8 text-cyan-600" />,
+    bgColor: "bg-cyan-100",
+    title: "Project Watching",
+    subtitle: "Stay updated on important projects",
+  },
+  {
+    icon: <Bell className="w-8 h-8 text-pink-600" />,
+    bgColor: "bg-pink-100",
+    title: "Smart Notifications",
+    subtitle: "Never miss important updates",
+  },
+  {
+    icon: <Calendar className="w-8 h-8 text-red-600" />,
+    bgColor: "bg-red-100",
+    title: "Timeline Tracking",
+    subtitle: "Monitor deadlines and milestones",
+  },
 ];
 
 const AboutSection = () => (
-  <section id="about" className="py-20 bg-white">
-    <div className="max-w-4xl mx-auto px-6 text-center">
+  <section id="about" className="py-20 bg-white overflow-hidden">
+    <div className="max-w-6xl mx-auto px-6 text-center">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
         About WorkSync
       </h2>
@@ -44,21 +90,73 @@ const AboutSection = () => (
           and project watching capabilities.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-6 text-center">
-          {ABOUT_HIGHLIGHTS.map((highlight, index) => (
-            <div key={index}>
+        <div className="relative overflow-hidden">
+          <div className="flex animate-scroll-left space-x-6">
+            {/* First set of highlights */}
+            {ABOUT_HIGHLIGHTS.map((highlight, index) => (
               <div
-                className={`${highlight.bgColor} p-4 rounded-full w-fit mx-auto mb-3`}
+                key={index}
+                className="flex-shrink-0 bg-white p-6 rounded-2xl shadow-lg border border-gray-100 w-64 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
-                {highlight.icon}
+                <div
+                  className={`${highlight.bgColor} p-4 rounded-full w-fit mx-auto mb-4`}
+                >
+                  {highlight.icon}
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {highlight.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {highlight.subtitle}
+                </p>
               </div>
-              <h3 className="font-semibold text-gray-900">{highlight.title}</h3>
-              <p className="text-gray-600 text-sm">{highlight.subtitle}</p>
-            </div>
-          ))}
+            ))}
+            {/* Duplicate set for seamless loop */}
+            {ABOUT_HIGHLIGHTS.map((highlight, index) => (
+              <div
+                key={`duplicate-${index}`}
+                className="flex-shrink-0 bg-white p-6 rounded-2xl shadow-lg border border-gray-100 w-64 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+              >
+                <div
+                  className={`${highlight.bgColor} p-4 rounded-full w-fit mx-auto mb-4`}
+                >
+                  {highlight.icon}
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {highlight.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {highlight.subtitle}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
+
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .animate-scroll-left {
+          animation: scroll-left 30s linear infinite;
+        }
+        
+        .animate-scroll-left:hover {
+          animation-play-state: paused;
+        }
+      `,
+      }}
+    />
   </section>
 );
 
