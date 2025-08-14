@@ -11,13 +11,13 @@ const registerUser = async (req, res) => {
     const { email, name, password } = req.body;
 
     // Temporarily comment out Arcjet for testing
-    // const decision = await aj.protect(req, { email });
-    // console.log("Arcjet decision", decision.isDenied());
+    const decision = await aj.protect(req, { email });
+    console.log("Arcjet decision", decision.isDenied());
 
-    // if (decision.isDenied()) {
-    //   res.writeHead(403, { "Content-Type": "application/json" });
-    //   res.end(JSON.stringify({ message: "Invalid email address" }));
-    // }
+    if (decision.isDenied()) {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Invalid email address" }));
+    }
 
     const isUserExists = await User.findOne({ email });
     if (isUserExists) {
@@ -72,13 +72,13 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     // Temporarily comment out Arcjet for testing
-    // const decision = await aj.protect(req, { email });
-    // console.log("Arcjet decision", decision.isDenied());
+    const decision = await aj.protect(req, { email });
+    console.log("Arcjet decision", decision.isDenied());
 
-    // if (decision.isDenied()) {
-    //   res.writeHead(403, { "Content-Type": "application/json" });
-    //   res.end(JSON.stringify({ message: "Invalid email address" }));
-    // }
+    if (decision.isDenied()) {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Invalid email address" }));
+    }
 
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
@@ -92,48 +92,48 @@ const loginUser = async (req, res) => {
     }
 
     // Comment out email verification check for testing
-    // if (!user.isEmailVerified) {
-    //   const existingVerification = await Verification.findOne({
-    //     userId: user._id,
-    //     purpose: "email-verification",
-    //   });
-    //   if (existingVerification && existingVerification.expiresAt > new Date()) {
-    //     return res.status(400).json({
-    //       message: "Email not verified, please verify your email to login.",
-    //     });
-    //   } else {
-    //     await Verification.deleteOne({ _id: existingVerification._id });
-    //     const verificationToken = jwt.sign(
-    //       { userId: user._id, purpose: "email-verification" },
-    //       process.env.JWT_SECRET,
-    //       { expiresIn: "1h" }
-    //     );
-    //     await Verification.create({
-    //       userId: user._id,
-    //       token: verificationToken,
-    //       expiresAt: new Date(Date.now() + 1 * 60 * 60 * 1000),
-    //     });
+    if (!user.isEmailVerified) {
+      const existingVerification = await Verification.findOne({
+        userId: user._id,
+        purpose: "email-verification",
+      });
+      if (existingVerification && existingVerification.expiresAt > new Date()) {
+        return res.status(400).json({
+          message: "Email not verified, please verify your email to login.",
+        });
+      } else {
+        await Verification.deleteOne({ _id: existingVerification._id });
+        const verificationToken = jwt.sign(
+          { userId: user._id, purpose: "email-verification" },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+        await Verification.create({
+          userId: user._id,
+          token: verificationToken,
+          expiresAt: new Date(Date.now() + 1 * 60 * 60 * 1000),
+        });
 
-    //     const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
-    //     const htmlContent = `<p>Hi ${user.name},</p>
-    //              <p>Thank you for registering. Please verify your email by clicking the link below:</p>
-    //              <a href="${verificationLink}">Verify Email</a>`;
-    //     const subject = "Email Verification for Project Management App";
-    //     const isEmailSent = await sendEmail(email, subject, htmlContent);
+        const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+        const htmlContent = `<p>Hi ${user.name},</p>
+                 <p>Thank you for registering. Please verify your email by clicking the link below:</p>
+                 <a href="${verificationLink}">Verify Email</a>`;
+        const subject = "Email Verification for Project Management App";
+        const isEmailSent = await sendEmail(email, subject, htmlContent);
 
-    //     if (!isEmailSent) {
-    //       return res.status(500).json({
-    //         message:
-    //           "Failed to send verification email, please try again later.",
-    //       });
-    //     }
+        if (!isEmailSent) {
+          return res.status(500).json({
+            message:
+              "Failed to send verification email, please try again later.",
+          });
+        }
 
-    //     res.status(201).json({
-    //       message:
-    //         "Verification email sent successfully, please verify your email to complete the registration.",
-    //     });
-    //   }
-    // }
+        res.status(201).json({
+          message:
+            "Verification email sent successfully, please verify your email to complete the registration.",
+        });
+      }
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
