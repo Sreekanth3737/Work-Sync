@@ -336,7 +336,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Need help? We're here for you:
 
 - 📧 Email: support@worksync.dev
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/worksync/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/Sreekanth3737/worksync/issues)
 - 📖 Documentation: [docs.worksync.dev](https://docs.worksync.dev)
 
 ---
@@ -345,9 +345,9 @@ Need help? We're here for you:
 
 **[⬆ Back to Top](#-worksync---team-collaboration--task-management-platform)**
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Your Name](https://github.com/Sreekanth3737)
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/worksync?style=social)](https://github.com/yourusername/worksync/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/worksync?style=social)](https://github.com/yourusername/worksync/network)
+[![GitHub stars](https://img.shields.io/github/stars/Sreekanth3737/worksync?style=social)](https://github.com/Sreekanth3737/worksync/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Sreekanth3737/worksync?style=social)](https://github.com/Sreekanth3737/worksync/network)
 
 </div>
