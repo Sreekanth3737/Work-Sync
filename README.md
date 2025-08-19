@@ -60,7 +60,7 @@ WorkSync is a comprehensive project management platform designed to bring struct
 - **Routing**: React Router 7.5
 - **Styling**: Tailwind CSS 4.1
 - **UI Components**: Radix UI primitives
-- **State Management**: TanStack Query for server state
+- **State Management**: TanStack Query for server state and Caching
 - **Form Handling**: React Hook Form with Zod validation
 - **Icons**: Lucide React
 - **Charts**: Recharts for data visualization
