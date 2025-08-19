@@ -345,7 +345,7 @@ Need help? We're here for you:
 
 **[⬆ Back to Top](#-worksync---team-collaboration--task-management-platform)**
 
-Made with ❤️ by [Your Name](https://github.com/Sreekanth3737)
+Made with ❤️ by [Sreekanth3737](https://github.com/Sreekanth3737)
 
 [![GitHub stars](https://img.shields.io/github/stars/Sreekanth3737/worksync?style=social)](https://github.com/Sreekanth3737/worksync/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Sreekanth3737/worksync?style=social)](https://github.com/Sreekanth3737/worksync/network)
