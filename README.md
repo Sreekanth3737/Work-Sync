@@ -115,7 +115,7 @@ Detailed task view with comments, activity logs, and collaboration features
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/worksync.git
+   git clone https://github.com/Sreekanth3737/worksync.git
    cd worksync
    ```
 
